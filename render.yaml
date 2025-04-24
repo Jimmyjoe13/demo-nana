@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: d-mo-ai
+    env: node
+    plan: free
+    branch: master
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: SESSION_SECRET
+        fromDatabase: false
+        value: "your-session-secret-here"
+      # Ajoutez ici d'autres variables d'environnement nécessaires, par exemple :
+      # - key: OPENAI_API_KEY
+      #   fromDatabase: false
+      #   value: "your-openai-api-key"
+    autoDeploy: true
+    region: oregon
+    # Render expose automatiquement le port 10000+, mais votre app écoute sur 5000
+    # Render mappe automatiquement le port 10000+ vers le port 5000 de votre app
+    # Pas besoin de config supplémentaire pour le port
