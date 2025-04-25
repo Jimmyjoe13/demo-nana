@@ -65,6 +65,22 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 (async () => {
+  // Vérification des variables d'environnement critiques
+  const requiredEnvVars = [
+    "SESSION_SECRET",
+    "OPENAI_API_KEY",
+    "N8N_WEBHOOK_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_REDIRECT_URI",
+  ];
+
+  for (const varName of requiredEnvVars) {
+    if (!process.env[varName]) {
+      throw new Error(`La variable d'environnement critique ${varName} n'est pas définie.`);
+    }
+  }
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
